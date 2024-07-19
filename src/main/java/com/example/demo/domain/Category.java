@@ -1,6 +1,9 @@
-package domain;
+package com.example.demo.domain;
 
+import com.example.demo.repository.CategoryRepository;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "category")
+@Getter
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

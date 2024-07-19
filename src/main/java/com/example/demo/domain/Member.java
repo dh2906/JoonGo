@@ -1,14 +1,16 @@
-package domain;
+package com.example.demo.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "member")
-@Builder
+@Getter
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +26,8 @@ public class Member {
     private String phone_number;
 
     @Column(length = 100, nullable = false)
-    private String account_number;
+    private String account;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "seller")
     private List<Article> articles = new ArrayList<>();
 }
