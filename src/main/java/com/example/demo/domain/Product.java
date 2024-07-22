@@ -1,6 +1,8 @@
 package com.example.demo.domain;
 
 import com.example.demo.controller.Dto.Request.ProductCreateRequest;
+import com.example.demo.controller.Dto.Request.ProductUpdateRequest;
+import com.example.demo.repository.CategoryRepository;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +29,8 @@ public class Product {
     @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(length = 300)
-    private String imagetUrl;
+    @Column(name = "image_url", length = 300)
+    private String imageUrl;
 
     @Column(length = 500, nullable = false)
     private String content;
@@ -36,6 +38,7 @@ public class Product {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     public Product(Member member,
@@ -44,9 +47,26 @@ public class Product {
         this.seller = member;
         this.category = category;
         this.title = request.getTitle();
-        this.imagetUrl = request.getImageUrl();
+        this.imageUrl = request.getImageUrl();
         this.content = request.getContent();
         this.price = request.getPrice();
         this.createdDate = LocalDateTime.now();
+    }
+
+    public void update(ProductUpdateRequest request, Category category) {
+        if (request.getTitle() != null)
+            this.title = request.getTitle();
+
+        if (request.getCategoryId() != null)
+            this.category = category;
+
+        if (request.getImageUrl() != null)
+            this.imageUrl = request.getImageUrl();
+
+        if (request.getContent() != null)
+            this.content = request.getContent();
+
+        if (request.getPrice() != null)
+            this.price = request.getPrice();
     }
 }

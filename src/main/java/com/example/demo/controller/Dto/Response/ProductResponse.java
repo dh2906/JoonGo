@@ -1,6 +1,7 @@
 package com.example.demo.controller.Dto.Response;
 
 import com.example.demo.domain.Product;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,8 @@ public class ProductResponse {
     private String content;
     private String imageUrl;
     private Integer price;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
 
     public ProductResponse(Product product) {
@@ -22,7 +25,7 @@ public class ProductResponse {
         this.category = product.getCategory().toString();
         this.title = product.getTitle();
         this.content = product.getContent();
-        this.imageUrl = product.getImagetUrl();
+        this.imageUrl = product.getImageUrl();
         this.price = product.getPrice();
         this.createdDate = product.getCreatedDate();
     }

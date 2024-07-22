@@ -24,6 +24,15 @@ public class Category {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category parentCategory;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
+
+    public String toString() {
+        if (parentCategory != null)
+            return parentCategory.getName() + " - " + this.name;
+
+        return this.name;
+    }
+
+
 }
