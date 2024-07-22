@@ -1,9 +1,7 @@
 package com.example.demo.domain;
 
-import com.example.demo.repository.CategoryRepository;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -24,8 +22,8 @@ public class Category {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Category parent_Category;
+    private Category parentCategory;
 
     @OneToMany(mappedBy = "category")
-    private List<Article> articles = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 }

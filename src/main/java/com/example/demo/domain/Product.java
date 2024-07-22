@@ -1,6 +1,6 @@
 package com.example.demo.domain;
 
-import com.example.demo.controller.Dto.Request.ArticleCreateRequest;
+import com.example.demo.controller.Dto.Request.ProductCreateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "article")
+@Table(name = "product")
 @Getter
 @NoArgsConstructor
-public class Article {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,9 +38,9 @@ public class Article {
 
     private LocalDateTime createdDate;
 
-    public Article(Member member,
+    public Product(Member member,
                    Category category,
-                   ArticleCreateRequest request) {
+                   ProductCreateRequest request) {
         this.seller = member;
         this.category = category;
         this.title = request.getTitle();
