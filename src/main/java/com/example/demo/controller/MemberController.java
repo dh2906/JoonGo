@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.Dto.Request.MemberCreateRequest;
-import com.example.demo.controller.Dto.Request.MemberUpdateRequest;
-import com.example.demo.controller.Dto.Response.MemberResponse;
+import com.example.demo.controller.dto.request.MemberCreateRequest;
+import com.example.demo.controller.dto.request.MemberUpdateRequest;
+import com.example.demo.controller.dto.response.MemberResponse;
 import com.example.demo.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

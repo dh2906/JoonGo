@@ -1,4 +1,4 @@
-package com.example.demo.controller.Dto.Request;
+package com.example.demo.controller.dto.request;
 
 
 import jakarta.validation.constraints.NotNull;

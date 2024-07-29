@@ -1,8 +1,7 @@
 package com.example.demo.domain;
 
-import com.example.demo.controller.Dto.Request.ProductCreateRequest;
-import com.example.demo.controller.Dto.Request.ProductUpdateRequest;
-import com.example.demo.repository.CategoryRepository;
+import com.example.demo.controller.dto.request.ProductCreateRequest;
+import com.example.demo.controller.dto.request.ProductUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

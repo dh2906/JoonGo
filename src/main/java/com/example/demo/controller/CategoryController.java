@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.Dto.Response.CategoryResponse;
-import com.example.demo.domain.Category;
+import com.example.demo.controller.dto.response.CategoryResponse;
 import com.example.demo.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

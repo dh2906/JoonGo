@@ -1,7 +1,9 @@
 package com.example.demo.domain;
 
-import com.example.demo.controller.Dto.Request.MemberCreateRequest;
-import com.example.demo.controller.Dto.Request.MemberUpdateRequest;
+import com.example.demo.controller.dto.request.MemberCreateRequest;
+import com.example.demo.controller.dto.request.MemberUpdateRequest;
+import com.example.demo.exception.ExceptionGenerator;
+import com.example.demo.exception.StatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,13 @@ public class Member {
     @OneToMany(mappedBy = "seller", orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
+    public Member(String userId, String password, String phoneNumber, String account) {
+        this.userId = userId;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.account = account;
+    }
+
     public Member(MemberCreateRequest request) {
         this.userId = request.getUserId();
         this.password = request.getPassword();
@@ -49,5 +58,8 @@ public class Member {
 
         if (request.getAccount() != null)
             this.account = request.getAccount();
+
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
     }
 }

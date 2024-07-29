@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.Dto.Request.MemberCreateRequest;
-import com.example.demo.controller.Dto.Request.MemberUpdateRequest;
-import com.example.demo.controller.Dto.Response.MemberResponse;
+import com.example.demo.controller.dto.request.MemberCreateRequest;
+import com.example.demo.controller.dto.request.MemberUpdateRequest;
+import com.example.demo.controller.dto.response.MemberResponse;
 import com.example.demo.domain.Member;
+import com.example.demo.exception.ExceptionGenerator;
+import com.example.demo.exception.StatusEnum;
 import com.example.demo.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +27,17 @@ public class MemberService {
     }
 
     public MemberResponse getById(Long id) {
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
 
         return MemberResponse.from(member);
+    }
+
+    public Member getByUserId(String userId) {
+        Member member = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
+
+        return member;
     }
 
     @Transactional
@@ -40,7 +50,8 @@ public class MemberService {
 
     @Transactional
     public MemberResponse update(Long id, MemberUpdateRequest request) {
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
         member.update(request);
 
         memberRepository.save(member);

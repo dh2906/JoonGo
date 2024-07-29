@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.Dto.Request.ProductCreateRequest;
-import com.example.demo.controller.Dto.Request.ProductUpdateRequest;
-import com.example.demo.controller.Dto.Response.MemberResponse;
-import com.example.demo.controller.Dto.Response.ProductResponse;
+import com.example.demo.controller.dto.request.ProductCreateRequest;
+import com.example.demo.controller.dto.request.ProductUpdateRequest;
+import com.example.demo.controller.dto.response.ProductResponse;
 import com.example.demo.domain.Product;
 import com.example.demo.domain.Category;
 import com.example.demo.domain.Member;

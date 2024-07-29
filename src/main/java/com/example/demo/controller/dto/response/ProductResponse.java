@@ -1,4 +1,4 @@
-package com.example.demo.controller.Dto.Response;
+package com.example.demo.controller.dto.response;
 
 import com.example.demo.domain.Product;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,14 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.Dto.Response.CategoryResponse;
-import com.example.demo.controller.Dto.Response.ProductResponse;
+import com.example.demo.controller.dto.response.CategoryResponse;
 import com.example.demo.domain.Category;
-import com.example.demo.domain.Product;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CategoryService {

@@ -1,7 +1,6 @@
-package com.example.demo.controller.Dto.Request;
+package com.example.demo.controller.dto.request;
 
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
@@ -10,4 +9,8 @@ public class MemberUpdateRequest {
     private String password;
     private String phoneNumber;
     private String account;
+
+    public boolean isEmpty() {
+
+    }
 }
