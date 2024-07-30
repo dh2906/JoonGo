@@ -1,9 +1,6 @@
 package com.example.demo.domain;
 
 import com.example.demo.controller.dto.request.MemberCreateRequest;
-import com.example.demo.controller.dto.request.MemberUpdateRequest;
-import com.example.demo.exception.ExceptionGenerator;
-import com.example.demo.exception.StatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,17 +46,15 @@ public class Member {
         this.account = request.getAccount();
     }
 
-    public void update(MemberUpdateRequest request) {
-        if (request.getPassword() != null)
-            this.password = request.getPassword();
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 
-        if (request.getPhoneNumber() != null)
-            this.phoneNumber = request.getPhoneNumber();
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-        if (request.getAccount() != null)
-            this.account = request.getAccount();
-
-        if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+    public void udpateAccount(String account) {
+        this.account = account;
     }
 }

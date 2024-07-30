@@ -4,17 +4,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class ProductCreateRequest {
+public class ReviewCreateRequest {
     @NotNull
-    private Long categoryId;
-
-    @NotNull
-    private String title;
-
-    private String imageUrl;
-
     private String content;
 
     @NotNull
-    private Integer price;
+    private int score;
 }

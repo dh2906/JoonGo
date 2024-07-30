@@ -40,6 +40,13 @@ public class Product {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
+    @Column(nullable = false)
+    private Long likeCount;
+
+    @Column(nullable = false)
+    private boolean isSold;
+
+
     public Product(Member member,
                    Category category,
                    ProductCreateRequest request) {
@@ -50,6 +57,8 @@ public class Product {
         this.content = request.getContent();
         this.price = request.getPrice();
         this.createdDate = LocalDateTime.now();
+        this.likeCount = 0L;
+        this.isSold = false;
     }
 
     public void update(ProductUpdateRequest request, Category category) {
@@ -67,5 +76,17 @@ public class Product {
 
         if (request.getPrice() != null)
             this.price = request.getPrice();
+    }
+
+    public void increaseLike() {
+        likeCount++;
+    }
+
+    public void decreaseLike() {
+        likeCount--;
+    }
+
+    public void updateSoldState(boolean isSold) {
+        this.isSold = !isSold;
     }
 }

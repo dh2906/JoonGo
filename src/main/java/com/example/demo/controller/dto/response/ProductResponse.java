@@ -15,6 +15,8 @@ public class ProductResponse {
     private String content;
     private String imageUrl;
     private Integer price;
+    private Long likeCount;
+    private boolean isSold;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;
@@ -28,6 +30,8 @@ public class ProductResponse {
         this.imageUrl = product.getImageUrl();
         this.price = product.getPrice();
         this.createdDate = product.getCreatedDate();
+        this.isSold = product.isSold();
+        this.likeCount = product.getLikeCount();
     }
 
     public static ProductResponse of(Product product) {
