@@ -7,6 +7,7 @@ import com.example.demo.domain.Member;
 import com.example.demo.exception.ExceptionGenerator;
 import com.example.demo.exception.StatusEnum;
 import com.example.demo.repository.MemberRepository;
+import com.example.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,9 @@ public class MemberService {
 
     @Transactional
     public MemberResponse join(MemberCreateRequest request) {
+        if (memberRepository.existsByUserId(request.getUserId()))
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_CONFLICT_USER_ID);
+
         Member member = new Member(request.getUserId(),
                 passwordEncoder.encode(request.getPassword()),
                 request.getPhoneNumber(),
