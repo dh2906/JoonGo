@@ -6,6 +6,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RestControllerAdvice
 public class ExceptHandler {
     @ExceptionHandler(ExceptionGenerator.class)
@@ -14,9 +16,10 @@ public class ExceptHandler {
                 .body(new ExceptionResponse(e));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    private ResponseEntity<ExceptionResponse> validExceptionHandling() {
-        ExceptionGenerator e = new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class, MethodArgumentNotValidException.class})
+    private ResponseEntity<ExceptionResponse> checkDuplicateUnit() {
+        ExceptionGenerator e = new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_DUPLICATE_UNIT);
         return ResponseEntity.status(e.getStatusCode()).body(new ExceptionResponse(e));
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.annotation.SwaggerApiOk;
 import com.example.demo.controller.dto.response.CategoryResponse;
 import com.example.demo.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/category/{id}")
+    @SwaggerApiOk(summary = "카테고리 조회", description = "특정 id의 카테고리를 조회합니다.", implementation = CategoryResponse.class)
     public ResponseEntity<CategoryResponse> getCategory(@PathVariable Long id) {
         CategoryResponse response = categoryService.getById(id);
 

@@ -29,14 +29,24 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String account;
 
-    @OneToMany(mappedBy = "seller", orphanRemoval = true)
+    @Column(length = 100, nullable = false)
+    private String role;
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     public Member(String userId, String password, String phoneNumber, String account) {
         this.userId = userId;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.account = account;
+        this.role = "user";
     }
 
     public Member(MemberCreateRequest request) {
@@ -44,6 +54,7 @@ public class Member {
         this.password = request.getPassword();
         this.phoneNumber = request.getPhoneNumber();
         this.account = request.getAccount();
+        this.role = "user";
     }
 
     public void updatePassword(String password) {

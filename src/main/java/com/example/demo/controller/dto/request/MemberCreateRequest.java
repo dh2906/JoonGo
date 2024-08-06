@@ -6,15 +6,15 @@ import lombok.Getter;
 
 @Getter
 public class MemberCreateRequest {
-    @NotNull
     private String userId;
-
-    @NotNull
     private String password;
-
-    @NotNull
     private String phoneNumber;
-
-    @NotNull
     private String account;
+
+    public boolean isEmpty() {
+        if (userId.isEmpty() && password.isEmpty() && phoneNumber.isEmpty() && account.isEmpty())
+            return true;
+
+        return false;
+    }
 }

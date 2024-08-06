@@ -89,4 +89,24 @@ public class Product {
     public void updateSoldState(boolean isSold) {
         this.isSold = !isSold;
     }
+
+    public void updateCategory(Category category) {
+        this.category = category;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updatePrice(Integer price) {
+        this.price = price;
+    }
 }

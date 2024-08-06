@@ -5,9 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class ReviewCreateRequest {
-    @NotNull
     private String content;
-
-    @NotNull
     private int score;
+
+    public boolean isEmpty() {
+        if (content == null || content.isEmpty())
+            return true;
+
+        return false;
+    }
 }

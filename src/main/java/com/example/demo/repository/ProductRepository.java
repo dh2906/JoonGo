@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
     @Query("SELECT p FROM Product p WHERE p.category.id = :childId AND p.category.parentCategory.id = :parentId")
     List<Product> findAllByParentAndChildCategory(@Param("parentId") Long parentId, @Param("childId") Long childId);
 

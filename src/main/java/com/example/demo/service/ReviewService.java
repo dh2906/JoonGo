@@ -40,11 +40,17 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponse create(String authorUserId, String sellerUserId, ReviewCreateRequest request) {
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
         Member author = memberRepository.findByUserId(authorUserId)
                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_AUTHOR));
 
         Member seller = memberRepository.findByUserId(sellerUserId)
                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_SELLER));
+
+        if ( (request.getScore() < 0) || (request.getScore() > 10) )
+            throw new ExceptionGenerator(StatusEnum.SCORE_OUT_OF_RANGE);
 
         Review review = new Review(author, seller, request);
 

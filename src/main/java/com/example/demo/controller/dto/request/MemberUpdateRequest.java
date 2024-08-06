@@ -10,7 +10,7 @@ public class MemberUpdateRequest {
     private String account;
 
     public boolean isEmpty() {
-        if (this.password == null && this.phoneNumber == null && this.account == null)
+        if (this.password.isEmpty() && this.phoneNumber.isEmpty() && this.account.isEmpty())
             return true;
 
         return false;

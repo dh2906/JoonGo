@@ -7,14 +7,12 @@ import lombok.Getter;
 public class MemberResponse {
     private Long id;
     private String userId;
-    private String phoneNumber;
-    private String account;
+    private String role;
 
     public MemberResponse(Member member) {
         this.id = member.getId();
         this.userId = member.getUserId();
-        this.phoneNumber = member.getPhoneNumber();
-        this.account = member.getAccount();
+        this.role = member.getRole();
     }
 
     public static MemberResponse from(Member member) {

@@ -24,13 +24,15 @@ public class ReviewInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null) // POST, PUT, DELETE 요청에서 세션이 없는지 검사
-            throw new ExceptionGenerator(StatusEnum.PERMISSION_ERROR);
+        if (session == null) // POST, DELETE 요청에서 세션이 없는지 검사
+            throw new ExceptionGenerator(StatusEnum.SESSION_EXPIRED);
+
+        if ("POST".equalsIgnoreCase(request.getMethod()))
+            return true;
 
         String uri = request.getRequestURI();
         String[] uriParts = uri.split("/");
         Long reviewId = Long.valueOf(uriParts[2]);
-
         String userId = memberService.getById(reviewService.getById(reviewId).getAuthor().getId()).getUserId();
 
         if (!userId.equals(session.getAttribute("userId").toString()))

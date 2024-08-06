@@ -17,6 +17,9 @@ public class AuthService {
 
     @Transactional
     public void register(MemberCreateRequest request) {
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
         memberService.join(request);
     }
 
@@ -24,10 +27,8 @@ public class AuthService {
     public void logIn(LogInRequest request) {
         if (!passwordEncoder.matches(
                 request.getPassword(),
-                memberService
-                        .getByUserId(request.getUserId())
-                        .getPassword())
-        )
+                memberService.getPasswordByUserId(request.getUserId())
+        ))
             throw new ExceptionGenerator(StatusEnum.LOGIN_UNSUCCESSFUL);
     }
 }

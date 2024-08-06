@@ -2,12 +2,15 @@ package com.example.demo.service;
 
 import com.example.demo.controller.dto.request.MemberCreateRequest;
 import com.example.demo.controller.dto.request.MemberUpdateRequest;
+import com.example.demo.controller.dto.response.DetailMemberResponse;
 import com.example.demo.controller.dto.response.MemberResponse;
+import com.example.demo.domain.Like;
 import com.example.demo.domain.Member;
+import com.example.demo.domain.Product;
 import com.example.demo.exception.ExceptionGenerator;
 import com.example.demo.exception.StatusEnum;
+import com.example.demo.repository.LikeRepository;
 import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final LikeRepository likeRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
@@ -40,17 +44,20 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member getByUserId(String userId) {
+    public MemberResponse getByUserId(String userId) {
         Member member = memberRepository.findByUserId(userId)
                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
 
-        return member;
+        return MemberResponse.from(member);
     }
 
     @Transactional
-    public MemberResponse join(MemberCreateRequest request) {
+    public DetailMemberResponse join(MemberCreateRequest request) {
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
         if (memberRepository.existsByUserId(request.getUserId()))
-            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_CONFLICT_USER_ID);
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_DUPLICATE_UNIT);
 
         Member member = new Member(request.getUserId(),
                 passwordEncoder.encode(request.getPassword()),
@@ -60,12 +67,15 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        return MemberResponse.from(member);
+        return DetailMemberResponse.from(member);
     }
 
     @Transactional
-    public MemberResponse update(Long id, MemberUpdateRequest request) {
-        Member member = memberRepository.findById(id)
+    public DetailMemberResponse update(String userId, MemberUpdateRequest request) {
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
+        Member member = memberRepository.findByUserId(userId)
                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
 
         if (request.isEmpty())
@@ -82,11 +92,19 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        return MemberResponse.from(member);
+        return DetailMemberResponse.from(member);
     }
 
     @Transactional
-    public void delete(Long id) {
-        memberRepository.deleteById(id);
+    public void delete(String userId) {
+        List<Like> likes = likeRepository.findAllByMemberUserId(userId);
+        likes.stream().map(Like::getProduct).forEach(Product::decreaseLike);
+
+        memberRepository.deleteByUserId(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public String getPasswordByUserId(String userId) {
+        return memberRepository.findByUserId(userId).get().getPassword();
     }
 }

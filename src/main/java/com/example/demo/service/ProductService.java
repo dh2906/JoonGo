@@ -62,6 +62,9 @@ public class ProductService {
 
     @Transactional
     public ProductResponse create(String userId, ProductCreateRequest request) {
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
         Member member = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
 
@@ -77,21 +80,34 @@ public class ProductService {
 
     @Transactional
     public ProductResponse update(Long id, ProductUpdateRequest request) {
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
         Product product = productRepository.findById(id)
                                            .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_PRODUCT));
 
         Category category;
 
-        if (request.getCategoryId() != null)
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+
+        if (request.getCategoryId() != null) {
             category = categoryRepository.findById(request.getCategoryId())
                                          .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_CATEGORY));
+            product.updateCategory(category);
+        }
 
-        else
-            category = productRepository.findById(id)
-                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_CATEGORY))
-                                        .getCategory();
+        if (request.getTitle() != null)
+            product.updateTitle(request.getTitle());
 
-        product.update(request, category);
+        if (request.getContent() != null)
+            product.updateContent(request.getContent());
+
+        if (request.getPrice() != null)
+            product.updatePrice(request.getPrice());
+
+        if (request.getImageUrl() != null)
+            product.updateImageUrl(request.getImageUrl());
 
         productRepository.save(product);
 

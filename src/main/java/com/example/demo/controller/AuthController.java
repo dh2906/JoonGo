@@ -3,21 +3,21 @@ package com.example.demo.controller;
 import com.example.demo.controller.dto.request.MemberCreateRequest;
 import com.example.demo.controller.dto.request.LogInRequest;
 import com.example.demo.service.AuthService;
+import com.example.demo.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
-    AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    private final MemberService memberService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody MemberCreateRequest request) {
@@ -33,7 +33,8 @@ public class AuthController {
         httpServletRequest.getSession().invalidate();
         HttpSession session = httpServletRequest.getSession(true);
         session.setAttribute("userId", request.getUserId());
-        session.setMaxInactiveInterval(1800);
+        session.setAttribute("role", memberService.getByUserId(request.getUserId()).getRole());
+        session.setMaxInactiveInterval(3600);
 
         return ResponseEntity.ok("로그인 성공");
     }

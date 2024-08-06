@@ -9,4 +9,11 @@ public class ProductUpdateRequest {
     private String imageUrl;
     private String content;
     private Integer price;
+
+    public boolean isEmpty() {
+        if (categoryId == null && title.isEmpty() && content.isEmpty() && price == null && imageUrl.isEmpty())
+            return true;
+
+        return false;
+    }
 }
