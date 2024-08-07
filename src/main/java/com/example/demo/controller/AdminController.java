@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.annotation.SwaggerApiNoContent;
 import com.example.demo.annotation.SwaggerApiOk;
 import com.example.demo.controller.dto.response.DetailMemberResponse;
+import com.example.demo.controller.dto.response.DetailReviewResponse;
 import com.example.demo.controller.dto.response.MemberResponse;
+import com.example.demo.controller.dto.response.ReviewResponse;
 import com.example.demo.domain.Member;
 import com.example.demo.service.AdminService;
 import com.example.demo.service.MemberService;
@@ -31,8 +33,8 @@ public class AdminController {
 
     @DeleteMapping("/members/{user_id}")
     @SwaggerApiNoContent(summary = "멤버 강제 삭제", description = "멤버를 강제 삭제할 수 있습니다.")
-    public ResponseEntity<Void> deleteMember(@PathVariable String userId) {
-        adminService.deleteMember(userId);
+    public ResponseEntity<Void> deleteMember(@PathVariable String user_id) {
+        adminService.deleteMember(user_id);
 
         return ResponseEntity.noContent().build();
     }
@@ -43,6 +45,14 @@ public class AdminController {
         adminService.deleteProduct(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/reviews")
+    @SwaggerApiOk(summary = "리뷰 전체 조회", description = "현재 작성된 모든 리뷰를 조회할 수 있습니다.")
+    public ResponseEntity<List<DetailReviewResponse>> getReviews() {
+        List<DetailReviewResponse> response = adminService.getAllReviews();
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/reviews/{id}")

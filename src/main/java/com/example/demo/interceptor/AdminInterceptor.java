@@ -22,10 +22,11 @@ public class AdminInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
 
-        if (session == null) // POST, PUT, DELETE 요청에서 세션이 없는지 검사
+        if (session == null)
             throw new ExceptionGenerator(StatusEnum.SESSION_EXPIRED);
 
-        if (session.getAttribute("role") != "admin")
+
+        if (!session.getAttribute("role").equals("admin"))
             throw new ExceptionGenerator(StatusEnum.PERMISSION_ERROR);
 
         return true;
