@@ -25,6 +25,10 @@ public class LikeService {
     @Transactional(readOnly = true)
     public List<LikeResponse> getByUserId(String userId) {
         List<Like> likes = likeRepository.findAllByMemberUserId(userId);
+
+        if (likes == null || likes.isEmpty()) {
+            throw new ExceptionGenerator(StatusEnum.NOT_PRESENT_LIKE);
+        }
         return likes.stream().map(LikeResponse::from).toList();
     }
 

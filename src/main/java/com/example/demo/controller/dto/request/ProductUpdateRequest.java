@@ -10,7 +10,7 @@ public class ProductUpdateRequest {
     private String content;
     private Integer price;
 
-    public boolean isEmpty() {
+    public boolean checkIsEmpty() {
         if (categoryId == null && title == null && content == null && price == null && imageUrl == null)
             return true;
 

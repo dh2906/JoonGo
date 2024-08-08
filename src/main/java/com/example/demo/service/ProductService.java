@@ -54,8 +54,11 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductResponse> getAllBySearch(String keyword) {
+    public List<ProductResponse> getAllByKeyword(String keyword) {
         List<Product> products = productRepository.findAllByTitleContainsIgnoreCaseOrContentContainsIgnoreCase(keyword, keyword);
+
+        if (products.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT);
 
         return products.stream().map(ProductResponse::of).toList();
     }
@@ -80,16 +83,13 @@ public class ProductService {
 
     @Transactional
     public ProductResponse update(Long id, ProductUpdateRequest request) {
-        if (request.isEmpty())
+        if (request.checkIsEmpty())
             throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         Product product = productRepository.findById(id)
                                            .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT));
 
         Category category;
-
-        if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         if (request.getCategoryId() != null) {
             category = categoryRepository.findById(request.getCategoryId())

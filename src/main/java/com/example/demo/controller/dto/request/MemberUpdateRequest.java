@@ -8,7 +8,7 @@ public class MemberUpdateRequest {
     private String phoneNumber;
     private String account;
 
-    public boolean isEmpty() {
+    public boolean checkIsEmpty() {
         if (password == null && phoneNumber == null && account == null)
             return true;
 

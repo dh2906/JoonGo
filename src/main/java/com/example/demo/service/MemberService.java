@@ -53,14 +53,11 @@ public class MemberService {
 
     @Transactional
     public DetailMemberResponse update(String userId, MemberUpdateRequest request) {
-        if (request.isEmpty())
+        if (request.checkIsEmpty())
             throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         Member member = memberRepository.findByUserId(userId)
                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
-
-        if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         if (request.getPassword() != null)
             member.updatePassword(passwordEncoder.encode(request.getPassword()));
@@ -82,11 +79,6 @@ public class MemberService {
         likes.stream().map(Like::getProduct).forEach(Product::decreaseLike);
 
         memberRepository.deleteByUserId(userId);
-    }
-
-    @Transactional(readOnly = true)
-    public String getPasswordByUserId(String userId) {
-        return memberRepository.findByUserId(userId).get().getPassword();
     }
 
     @Transactional

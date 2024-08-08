@@ -31,6 +31,9 @@ public class AdminService {
     public List<DetailMemberResponse> getAllMembers() {
         List<Member> members = memberRepository.findAll();
 
+        if (members.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER);
+
         return members.stream().map(DetailMemberResponse::from).toList();
     }
 
@@ -50,6 +53,9 @@ public class AdminService {
     @Transactional(readOnly = true)
     public List<DetailReviewResponse> getAllReviews() {
         List<Review> reviews = reviewRepository.findAll();
+
+        if (reviews.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.NOT_PRESENT_REVIEW);
 
         return reviews.stream().map(DetailReviewResponse::from).toList();
     }

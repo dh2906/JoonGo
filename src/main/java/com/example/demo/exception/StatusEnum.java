@@ -9,6 +9,7 @@ public enum StatusEnum {
     NOT_PRESENT_SELLER(404, "Not Found", "판매자가 존재하지 않습니다."),
     NOT_PRESENT_PRODUCT(404, "Not Found", "상품이 존재하지 않습니다."),
     NOT_PRESENT_REVIEW(404, "Not Found", "리뷰가 존재하지 않습니다."),
+    NOT_PRESENT_LIKE(404, "Not Found", "좋아요를 누른 상품이 존재하지 않습니다."),
     NOT_PRESENT_CATEGORY(404, "Not Found", "카테고리가 존재하지 않습니다."),
     DUPLICATE_UNIT(409, "Conflict", "이미 존재하는 요소가 있습니다."),
     CONTAIN_EMPTY_REQUEST(400, "Bad Request", "요청 내용에 Null 또는 공백이 들어갔습니다."),

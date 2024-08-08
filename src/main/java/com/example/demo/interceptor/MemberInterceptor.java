@@ -2,7 +2,6 @@ package com.example.demo.interceptor;
 
 import com.example.demo.exception.ExceptionGenerator;
 import com.example.demo.exception.StatusEnum;
-import com.example.demo.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 public class MemberInterceptor implements HandlerInterceptor {
-    private final MemberService memberService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
