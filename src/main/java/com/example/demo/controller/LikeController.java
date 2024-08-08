@@ -3,8 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.annotation.SwaggerApiOk;
 import com.example.demo.controller.dto.response.LikeResponse;
 import com.example.demo.service.LikeService;
-import jakarta.persistence.Id;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

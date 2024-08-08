@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,12 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String role;
 
+    @Column(name = "is_suspend", nullable = false)
+    private boolean isSuspend;
+
+    @Column(name = "suspension_end_date")
+    private LocalDateTime suspensionEndDate;
+
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
@@ -47,6 +54,7 @@ public class Member {
         this.phoneNumber = phoneNumber;
         this.account = account;
         this.role = "user";
+        this.isSuspend = false;
     }
 
     public Member(MemberCreateRequest request) {
@@ -55,6 +63,7 @@ public class Member {
         this.phoneNumber = request.getPhoneNumber();
         this.account = request.getAccount();
         this.role = "user";
+        this.isSuspend = false;
     }
 
     public void updatePassword(String password) {
@@ -67,5 +76,15 @@ public class Member {
 
     public void udpateAccount(String account) {
         this.account = account;
+    }
+
+    public void suspend(LocalDateTime endTime) {
+        this.isSuspend = true;
+        this.suspensionEndDate = endTime;
+    }
+
+    public void unsuspend() {
+        this.isSuspend = false;
+        this.suspensionEndDate = null;
     }
 }

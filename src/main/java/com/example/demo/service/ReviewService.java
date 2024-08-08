@@ -23,7 +23,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public List<ReviewResponse> getAllByUserId(String sellerUserId) {
         memberRepository.findByUserId(sellerUserId)
-                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
+                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
 
         List<Review> reviews = reviewRepository.findAllBySellerUserId(sellerUserId);
 
@@ -33,7 +33,7 @@ public class ReviewService {
     @Transactional(readOnly = true)
     public Review getById(Long id) {
         Review review = reviewRepository.findById(id)
-                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_REVIEW));
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_REVIEW));
 
         return review;
     }
@@ -41,13 +41,13 @@ public class ReviewService {
     @Transactional
     public ReviewResponse create(String authorUserId, String sellerUserId, ReviewCreateRequest request) {
         if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         Member author = memberRepository.findByUserId(authorUserId)
-                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_AUTHOR));
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_AUTHOR));
 
         Member seller = memberRepository.findByUserId(sellerUserId)
-                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_SELLER));
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_SELLER));
 
         if ( (request.getScore() < 0) || (request.getScore() > 10) )
             throw new ExceptionGenerator(StatusEnum.SCORE_OUT_OF_RANGE);

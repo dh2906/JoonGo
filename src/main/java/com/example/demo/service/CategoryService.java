@@ -19,7 +19,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryResponse getById(Long id) {
         Category category = categoryRepository.findById(id)
-                                              .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_CATEGORY));
+                                              .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_CATEGORY));
         CategoryResponse response = new CategoryResponse(category);
 
         return response;

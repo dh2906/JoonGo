@@ -1,6 +1,5 @@
 package com.example.demo.controller.dto.request;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
@@ -11,8 +10,8 @@ public class ProductCreateRequest {
     private String content;
     private Integer price;
 
-    public boolean isEmpty() {
-        if (categoryId == null && title.isEmpty() && price == null)
+    public boolean checkContainNull() {
+        if (categoryId == null || title == null || content == null || price == null)
             return true;
 
         return false;

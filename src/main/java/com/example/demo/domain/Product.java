@@ -43,7 +43,7 @@ public class Product {
     @Column(nullable = false)
     private Long likeCount;
 
-    @Column(nullable = false)
+    @Column(name = "is_sold", nullable = false)
     private boolean isSold;
 
 

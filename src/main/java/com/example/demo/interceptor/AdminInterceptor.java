@@ -1,6 +1,5 @@
 package com.example.demo.interceptor;
 
-import com.example.demo.domain.Member;
 import com.example.demo.exception.ExceptionGenerator;
 import com.example.demo.exception.StatusEnum;
 import com.example.demo.service.MemberService;

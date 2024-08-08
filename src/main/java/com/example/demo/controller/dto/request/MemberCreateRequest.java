@@ -1,7 +1,5 @@
 package com.example.demo.controller.dto.request;
 
-
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
@@ -11,8 +9,8 @@ public class MemberCreateRequest {
     private String phoneNumber;
     private String account;
 
-    public boolean isEmpty() {
-        if (userId.isEmpty() && password.isEmpty() && phoneNumber.isEmpty() && account.isEmpty())
+    public boolean checkContainNull() {
+        if (userId == null || password == null || phoneNumber == null || account == null)
             return true;
 
         return false;

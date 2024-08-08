@@ -1,6 +1,5 @@
 package com.example.demo.controller.dto.request;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
@@ -9,7 +8,7 @@ public class ReviewCreateRequest {
     private int score;
 
     public boolean isEmpty() {
-        if (content == null || content.isEmpty())
+        if (content == null)
             return true;
 
         return false;

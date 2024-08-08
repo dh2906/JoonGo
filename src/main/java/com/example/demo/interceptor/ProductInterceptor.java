@@ -1,6 +1,5 @@
 package com.example.demo.interceptor;
 
-import com.example.demo.domain.Member;
 import com.example.demo.exception.ExceptionGenerator;
 import com.example.demo.exception.StatusEnum;
 import com.example.demo.service.MemberService;
@@ -25,7 +24,7 @@ public class ProductInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null) // POST, PUT, DELETE 요청에서 세션이 없는지 검사
+        if (session == null) // 세션이 없는지 검사
             throw new ExceptionGenerator(StatusEnum.SESSION_EXPIRED);
 
         if ("POST".equalsIgnoreCase(request.getMethod())) { // POST 요청은 세션에 userId 값이 존재하는 지 검사

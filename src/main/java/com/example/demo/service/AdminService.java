@@ -2,11 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.controller.dto.response.DetailMemberResponse;
 import com.example.demo.controller.dto.response.DetailReviewResponse;
-import com.example.demo.controller.dto.response.MemberResponse;
 import com.example.demo.domain.Like;
 import com.example.demo.domain.Member;
 import com.example.demo.domain.Product;
 import com.example.demo.domain.Review;
+import com.example.demo.exception.ExceptionGenerator;
+import com.example.demo.exception.StatusEnum;
 import com.example.demo.repository.LikeRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.ProductRepository;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -55,5 +57,21 @@ public class AdminService {
     @Transactional
     public void deleteReview(Long id) {
         reviewRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void suspendMember(String userId, LocalDateTime endTime) {
+        Member member = memberRepository.findByUserId(userId)
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
+
+        member.suspend(endTime);
+    }
+
+    @Transactional
+    public void unsuspendMember(String userId) {
+        Member member = memberRepository.findByUserId(userId)
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
+
+        member.unsuspend();
     }
 }

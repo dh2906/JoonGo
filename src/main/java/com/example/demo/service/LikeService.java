@@ -31,10 +31,10 @@ public class LikeService {
     @Transactional
     public void toggleLike(String userId, Long productId) {
         Member member = memberRepository.findByUserId(userId)
-                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
 
         Product product = productRepository.findById(productId)
-                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_PRODUCT));
+                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT));
 
         if (likeRepository.existsByMemberUserIdAndProductId(userId, productId)) { // 이미 좋아요를 해둔 상황
             product.decreaseLike();

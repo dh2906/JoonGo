@@ -7,7 +7,6 @@ import com.example.demo.controller.dto.response.DetailMemberResponse;
 import com.example.demo.controller.dto.response.MemberResponse;
 import com.example.demo.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -11,7 +11,7 @@ public class ProductUpdateRequest {
     private Integer price;
 
     public boolean isEmpty() {
-        if (categoryId == null && title.isEmpty() && content.isEmpty() && price == null && imageUrl.isEmpty())
+        if (categoryId == null && title == null && content == null && price == null && imageUrl == null)
             return true;
 
         return false;

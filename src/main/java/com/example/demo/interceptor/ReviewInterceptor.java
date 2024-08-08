@@ -24,7 +24,7 @@ public class ReviewInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null) // POST, DELETE 요청에서 세션이 없는지 검사
+        if (session == null) // 세션이 없는지 검사
             throw new ExceptionGenerator(StatusEnum.SESSION_EXPIRED);
 
         if ("POST".equalsIgnoreCase(request.getMethod()))

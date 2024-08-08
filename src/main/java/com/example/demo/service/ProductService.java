@@ -27,7 +27,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductResponse getById(Long id) {
         Product product = productRepository.findById(id)
-                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_PRODUCT));
+                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT));
         return ProductResponse.of(product);
     }
 
@@ -48,7 +48,7 @@ public class ProductService {
             products = productRepository.findAllByParentAndChildCategory(parentId, childId);
 
         if (products.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_PRODUCT);
+            throw new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT);
 
         return products.stream().map(ProductResponse::of).toList();
     }
@@ -62,14 +62,14 @@ public class ProductService {
 
     @Transactional
     public ProductResponse create(String userId, ProductCreateRequest request) {
-        if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+        if (request.checkContainNull())
+            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         Member member = memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_MEMBER));
+                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_CATEGORY));
+                .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_CATEGORY));
 
         Product product = new Product(member, category, request);
 
@@ -81,19 +81,19 @@ public class ProductService {
     @Transactional
     public ProductResponse update(Long id, ProductUpdateRequest request) {
         if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         Product product = productRepository.findById(id)
-                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_PRODUCT));
+                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT));
 
         Category category;
 
         if (request.isEmpty())
-            throw new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_EMPTY_REQUEST);
+            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         if (request.getCategoryId() != null) {
             category = categoryRepository.findById(request.getCategoryId())
-                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_CATEGORY));
+                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_CATEGORY));
             product.updateCategory(category);
         }
 
@@ -122,7 +122,7 @@ public class ProductService {
     @Transactional
     public void toggleSoldState(Long id) {
         Product product = productRepository.findById(id)
-                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.READ_NOT_PRESENT_PRODUCT));
+                                           .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_PRODUCT));
 
         product.updateSoldState(product.isSold()); // 요청 내용대로 판매 상태 변환
     }

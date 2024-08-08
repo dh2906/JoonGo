@@ -4,17 +4,14 @@ import com.example.demo.annotation.SwaggerApiNoContent;
 import com.example.demo.annotation.SwaggerApiOk;
 import com.example.demo.controller.dto.response.DetailMemberResponse;
 import com.example.demo.controller.dto.response.DetailReviewResponse;
-import com.example.demo.controller.dto.response.MemberResponse;
-import com.example.demo.controller.dto.response.ReviewResponse;
-import com.example.demo.domain.Member;
+import com.example.demo.exception.ExceptionGenerator;
+import com.example.demo.exception.StatusEnum;
 import com.example.demo.service.AdminService;
-import com.example.demo.service.MemberService;
-import com.example.demo.service.ProductService;
-import com.example.demo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -61,5 +58,39 @@ public class AdminController {
         adminService.deleteReview(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/members/{user_id}/suspend")
+    @SwaggerApiOk(summary = "멤버 활동 정지", description = "특정 멤버의 활동을 일시정지 시킬 수 있습니다.")
+    public ResponseEntity<String> suspendMember(@PathVariable String user_id,
+                                            @RequestParam(defaultValue = "0") int year,
+                                            @RequestParam(defaultValue = "0") int month,
+                                            @RequestParam(defaultValue = "0") int day,
+                                            @RequestParam(defaultValue = "0") int hour,
+                                            @RequestParam(defaultValue = "0") int minute) {
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalDateTime endTime = now
+                .plusYears(year)
+                .plusMonths(month)
+                .plusDays(day)
+                .plusHours(hour)
+                .plusMinutes(minute);
+
+        if (endTime.isEqual(now)) {
+            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
+        }
+
+        adminService.suspendMember(user_id, endTime);
+
+        return ResponseEntity.ok().body(user_id + "님의 활동 정지 처리가 완료되었습니다.");
+    }
+
+    @PostMapping("/members/{user_id}/unsuspend")
+    @SwaggerApiOk(summary = "멤버 활동 정지 해제", description = "특정 멤버의 활동을 일시정지를 해제 시킬 수 있습니다.")
+    public ResponseEntity<String> unsuspendMember(@PathVariable String user_id) {
+        adminService.unsuspendMember(user_id);
+
+        return ResponseEntity.ok().body(user_id + "님의 활동 정지 해제 처리가 완료되었습니다.");
     }
 }

@@ -18,7 +18,7 @@ public class ExceptHandler {
 
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class, MethodArgumentNotValidException.class})
     private ResponseEntity<ExceptionResponse> checkDuplicateUnit() {
-        ExceptionGenerator e = new ExceptionGenerator(StatusEnum.CREATE_OR_EDIT_DUPLICATE_UNIT);
+        ExceptionGenerator e = new ExceptionGenerator(StatusEnum.DUPLICATE_UNIT);
         return ResponseEntity.status(e.getStatusCode()).body(new ExceptionResponse(e));
     }
 

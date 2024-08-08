@@ -2,9 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.annotation.SwaggerApiNoContent;
 import com.example.demo.annotation.SwaggerApiOk;
-import com.example.demo.controller.dto.request.ProductUpdateRequest;
 import com.example.demo.controller.dto.request.ReviewCreateRequest;
-import com.example.demo.controller.dto.response.ProductResponse;
 import com.example.demo.controller.dto.response.ReviewResponse;
 import com.example.demo.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
