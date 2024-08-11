@@ -35,4 +35,12 @@ public class Review {
         this.content = request.getContent();
         this.score = request.getScore();
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateScore(int score) {
+        this.score = score;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.demo.domain.review.service;
 import com.example.demo.domain.review.dto.ReviewCreateRequest;
 import com.example.demo.domain.review.dto.ReviewResponse;
 import com.example.demo.domain.member.model.Member;
+import com.example.demo.domain.review.dto.ReviewUpdateRequest;
 import com.example.demo.domain.review.model.Review;
 import com.example.demo.global.except.ExceptionGenerator;
 import com.example.demo.global.except.StatusEnum;
@@ -53,6 +54,29 @@ public class ReviewService {
             throw new ExceptionGenerator(StatusEnum.SCORE_OUT_OF_RANGE);
 
         Review review = new Review(author, seller, request);
+
+        reviewRepository.save(review);
+
+        return ReviewResponse.from(review);
+    }
+
+    @Transactional
+    public ReviewResponse update(Long id, ReviewUpdateRequest request) {
+        Review review = reviewRepository.findById(id)
+                                        .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_REVIEW));
+
+        if (request.isEmpty())
+            throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
+
+        if (request.getContent() != null)
+            review.updateContent(request.getContent());
+
+        if (request.getScore() != null) {
+            if ((request.getScore() < 0) || (request.getScore() > 10))
+                throw new ExceptionGenerator(StatusEnum.SCORE_OUT_OF_RANGE);
+
+            review.updateScore(request.getScore());
+        }
 
         reviewRepository.save(review);
 

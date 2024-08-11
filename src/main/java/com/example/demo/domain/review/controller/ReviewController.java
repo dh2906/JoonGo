@@ -2,6 +2,7 @@ package com.example.demo.domain.review.controller;
 
 import com.example.demo.domain.review.dto.ReviewCreateRequest;
 import com.example.demo.domain.review.dto.ReviewResponse;
+import com.example.demo.domain.review.dto.ReviewUpdateRequest;
 import com.example.demo.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,6 +37,15 @@ public class ReviewController implements ReviewApi{
         ReviewResponse response = reviewService.create(authorUserId, user_id, request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ReviewResponse> putReview(@PathVariable Long id,
+                                                    @RequestBody ReviewUpdateRequest request,
+                                                    HttpSession session) {
+        ReviewResponse response = reviewService.update(id, request);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

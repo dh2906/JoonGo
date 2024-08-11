@@ -2,6 +2,7 @@ package com.example.demo.domain.review.controller;
 
 import com.example.demo.domain.review.dto.ReviewCreateRequest;
 import com.example.demo.domain.review.dto.ReviewResponse;
+import com.example.demo.domain.review.dto.ReviewUpdateRequest;
 import com.example.demo.global.except.ExceptionGenerator;
 import com.example.demo.global.except.ExceptionResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,6 +40,20 @@ public interface ReviewApi {
     @PostMapping("/{user_id}")
     public ResponseEntity<ReviewResponse> postReview(@PathVariable String user_id,
                                                      @RequestBody ReviewCreateRequest request,
+                                                     HttpSession session);
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "400", description = "요청에 빈 값이 존재하는 경우", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "줄 수 있는 점수(0 ~ 10점)의 범위를 벗어나는 경우", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+                    @ApiResponse(responseCode = "404", description = "해당 리뷰를 찾을 수 없는 경우", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+            }
+    )
+    @Operation(summary = "리뷰 수정")
+    @PutMapping("/{id}")
+    public ResponseEntity<ReviewResponse> putReview(@PathVariable Long id,
+                                                     @RequestBody ReviewUpdateRequest request,
                                                      HttpSession session);
 
     @ApiResponse(responseCode = "204")
