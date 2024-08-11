@@ -43,9 +43,9 @@ public interface MemberApi {
                     @ApiResponse(responseCode = "404", description = "멤버를 찾을 수 없는 경우", content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
             }
     )
-    @Operation(summary = "멤버 정보 수정", description = "변경을 원하는 값만 요청에 넣어도 됩니다.")
+    @Operation(summary = "비밀번호 변경")
     @PutMapping
-    public ResponseEntity<DetailMemberResponse> putMember(@RequestBody MemberUpdateRequest request,
+    public ResponseEntity<MemberResponse> putMember(@RequestBody MemberUpdateRequest request,
                                                           HttpServletRequest httpServletRequest);
 
     @ApiResponse(responseCode = "204")

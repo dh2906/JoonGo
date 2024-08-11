@@ -52,7 +52,7 @@ public class MemberService {
     }
 
     @Transactional
-    public DetailMemberResponse update(String userId, MemberUpdateRequest request) {
+    public MemberResponse update(String userId, MemberUpdateRequest request) {
         if (request.getPassword() == null)
             throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
@@ -63,7 +63,7 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        return DetailMemberResponse.from(member);
+        return MemberResponse.from(member);
     }
 
     @Transactional

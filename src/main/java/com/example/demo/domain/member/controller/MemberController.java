@@ -36,11 +36,11 @@ public class MemberController implements MemberApi{
     }
 
     @PutMapping
-    public ResponseEntity<DetailMemberResponse> putMember(@RequestBody MemberUpdateRequest request,
+    public ResponseEntity<MemberResponse> putMember(@RequestBody MemberUpdateRequest request,
                                                           HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         String userId = session.getAttribute("userId").toString();
-        DetailMemberResponse response = memberService.update(userId, request);
+        MemberResponse response = memberService.update(userId, request);
 
         return ResponseEntity.ok(response);
     }
