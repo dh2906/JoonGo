@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${ssm:/db_url}
+    username: ${ssm:/db_username}
+    password: ${ssm:/db_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
