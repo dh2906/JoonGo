@@ -1,10 +1,13 @@
 aws:
-  paramstore:
-    enabled: true
+  region:
+    static: ap-northeast-2
+  credentials:
+    access-key: ${AWS_ACCESS_KEY_ID}
+    secret-key: ${AWS_SECRET_ACCESS_KEY}
 
 spring:
   datasource:
-    url: ${db_url}
+    url: jdbc:mysql://joongo-db.crisgo8yk5yb.ap-northeast-2.rds.amazonaws.com:3306/joongo
     username: ${db_username}
     password: ${db_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
