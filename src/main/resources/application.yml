@@ -4,10 +4,13 @@ aws:
   credentials:
     access-key: ${AWS_ACCESS_KEY_ID}
     secret-key: ${AWS_SECRET_ACCESS_KEY}
+  ssm:
+    parameter-store:
+      enabled: true
 
 spring:
   datasource:
-    url: jdbc:mysql://joongo-db.crisgo8yk5yb.ap-northeast-2.rds.amazonaws.com:3306/joongo
+    url: ${db_url}
     username: ${db_username}
     password: ${db_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
