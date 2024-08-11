@@ -27,12 +27,6 @@ public class Member {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @Column(name = "phone_number", length = 100, nullable = false)
-    private String phoneNumber;
-
-    @Column(length = 100, nullable = false)
-    private String account;
-
     @Column(length = 100, nullable = false)
     private String role;
 
@@ -51,11 +45,9 @@ public class Member {
     @OneToMany(mappedBy = "seller", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    public Member(String userId, String password, String phoneNumber, String account) {
+    public Member(String userId, String password) {
         this.userId = userId;
         this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.account = account;
         this.role = "user";
         this.isSuspend = false;
     }
@@ -63,22 +55,12 @@ public class Member {
     public Member(RegisterRequest request) {
         this.userId = request.getUserId();
         this.password = request.getPassword();
-        this.phoneNumber = request.getPhoneNumber();
-        this.account = request.getAccount();
         this.role = "user";
         this.isSuspend = false;
     }
 
     public void updatePassword(String password) {
         this.password = password;
-    }
-
-    public void updatePhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void udpateAccount(String account) {
-        this.account = account;
     }
 
     public void suspend(LocalDateTime endTime) {

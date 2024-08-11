@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 public class DetailMemberResponse {
     private Long id;
     private String userId;
-    private String phoneNumber;
-    private String account;
     private String role;
     private boolean isSuspend;
 
@@ -23,8 +21,6 @@ public class DetailMemberResponse {
     public DetailMemberResponse(Member member) {
         this.id = member.getId();
         this.userId = member.getUserId();
-        this.phoneNumber = member.getPhoneNumber();
-        this.account = member.getAccount();
         this.role = member.getRole();
         this.isSuspend = member.isSuspend();
         this.suspensionEndDate = member.getSuspensionEndDate();

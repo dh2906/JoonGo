@@ -25,9 +25,7 @@ public class AuthService {
             throw new ExceptionGenerator(StatusEnum.DUPLICATE_UNIT);
 
         Member member = new Member(request.getUserId(),
-                passwordEncoder.encode(request.getPassword()),
-                request.getPhoneNumber(),
-                request.getAccount()
+                passwordEncoder.encode(request.getPassword())
         );
 
         memberRepository.save(member);

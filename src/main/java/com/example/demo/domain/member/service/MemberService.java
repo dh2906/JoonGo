@@ -53,20 +53,13 @@ public class MemberService {
 
     @Transactional
     public DetailMemberResponse update(String userId, MemberUpdateRequest request) {
-        if (request.checkIsEmpty())
+        if (request.getPassword() == null)
             throw new ExceptionGenerator(StatusEnum.CONTAIN_EMPTY_REQUEST);
 
         Member member = memberRepository.findByUserId(userId)
                                         .orElseThrow(() -> new ExceptionGenerator(StatusEnum.NOT_PRESENT_MEMBER));
 
-        if (request.getPassword() != null)
-            member.updatePassword(passwordEncoder.encode(request.getPassword()));
-
-        if (request.getPhoneNumber() != null)
-            member.updatePhoneNumber(request.getPhoneNumber());
-
-        if (request.getAccount() != null)
-            member.udpateAccount(request.getAccount());
+        member.updatePassword(passwordEncoder.encode(request.getPassword()));
 
         memberRepository.save(member);
 
